@@ -2,14 +2,7 @@ from aiogram import types
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher import FSMContext
 from dispatcher import dp
-import config
-import re
-from bot import BotDB
-import logging
-import random
-
-logging.basicConfig(level=logging.INFO)
-
+from main import BotDB
 
 class User(StatesGroup):
     user_number = State()
