@@ -1,7 +1,6 @@
 from aiogram import types
 from aiogram.dispatcher.filters import BoundFilter
-from src import config
-
+import config
 
 class IsOwnerFilter(BoundFilter):
     """

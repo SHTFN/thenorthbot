@@ -15,6 +15,10 @@ class BotDB:
         result = self.cursor.execute("SELECT `id` FROM `users` WHERE `user_id` = ?", (user_id,))
         return bool(len(result.fetchall()))
 
+    def get_users(self):
+        result = self.cursor.execute("SELECT `user_id` FROM `users`")
+        return result.fetchall()
+
     def get_user_id(self, user_id):
         """Достаем id юзера в базе по его user_id"""
         result = self.cursor.execute("SELECT `id` FROM `users` WHERE `user_id` = ?", (user_id,))

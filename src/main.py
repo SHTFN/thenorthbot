@@ -1,9 +1,11 @@
-#import pip
+import pip
 #pip.main(['install', 'aiogram'])
+#from keep_alive import keep_alive
 from aiogram import executor
-from src.dispatcher import dp
+from dispatcher import dp
+import handlers
 
-from src.db import BotDB
+from db import BotDB
 BotDB = BotDB('accounts.db')
 
 if __name__ == "__main__":
