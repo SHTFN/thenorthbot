@@ -8,7 +8,7 @@ import os
 
 load_dotenv()
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+#logging.basicConfig(level=logging.INFO)
 
 # prerequisites
 if not config.BOT_TOKEN:
@@ -16,6 +16,7 @@ if not config.BOT_TOKEN:
 
 # init
 bot = Bot(token=os.getenv('BOT_TOKEN'), parse_mode="HTML")
+#bot = Bot(token=config.BOT_TOKEN, parse_mode="HTML")
 dp = Dispatcher(bot, storage=MemoryStorage())
 
 # activate filters
