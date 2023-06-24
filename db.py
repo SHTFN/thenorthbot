@@ -56,6 +56,21 @@ class BotDB:
         result = self.cursor.execute("SELECT `bonus_points` FROM `users` WHERE `user_id` = ?", (user_id,))
         return result.fetchone()[0]
 
+    def get_lang(self, user_id):
+        # Получение выбранного языка
+        result = self.cursor.execute("SELECT  `lang` FROM `users` WHERE `user_id` = ?", (user_id,))
+        return result.fetchone()[0]
+
+    def change_lang(self, user_id, lang):
+        # Смена языка
+        self.cursor.execute("UPDATE `users` SET `lang` = ? WHERE `user_id` = ?", (lang, user_id,))
+        return self.conn.commit()
+
+    def change_phone_num(self, user_id, phone_num):
+        # Смена номера телефона
+        self.cursor.execute("UPDATE `users` SET `user_phone_number` = ? WHERE `user_id` = ?", (phone_num, user_id,))
+        return self.conn.commit()
+
     def close(self):
         # Закрытие соединения с БД
         self.conn.close()

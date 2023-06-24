@@ -1,4 +1,4 @@
-import pip
+#import pip
 # pip.main(['install', 'aiogram', 'python-dotenv])
 # from keep_alive import keep_alive
 from aiogram import executor
