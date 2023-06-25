@@ -51,6 +51,21 @@ class BotDB:
         self.cursor.execute("INSERT INTO `users` (`user_phone_number`) VALUES (?)",
                             (number,))
 
+    def add_new_product(self, name, amount, cost):
+        self.cursor.execute(
+            "INSERT INTO `products` (`name`, `amount`, `cost`) VALUES (?, ?, ?)",
+            (name, amount, cost,)
+        )
+        return self.conn.commit()
+
+    def show_products(self):
+        result = self.cursor.execute("SELECT product_id, name, amount, cost FROM `products`")
+        return result.fetchall()
+
+    def delete_product(self, product_id):
+        self.cursor.execute("DELETE FROM products WHERE product_id = (?)", (product_id,))
+        return self.conn.commit()
+
     def get_points(self, user_id):
         # Получение количества баллов
         result = self.cursor.execute("SELECT `bonus_points` FROM `users` WHERE `user_id` = ?", (user_id,))

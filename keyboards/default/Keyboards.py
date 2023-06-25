@@ -1,24 +1,35 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 main_Rus = ReplyKeyboardMarkup(resize_keyboard=True)
-#main_Rus.add('Информация').add('Количество баллов').add('Поддержка').add('Сменить язык')
-main_Rus.row(KeyboardButton('Информация'), KeyboardButton('Поддержка')).row(KeyboardButton('Сменить язык'), KeyboardButton('Сменить номер телефона'))
+# main_Rus.add('Информация').add('Количество баллов').add('Поддержка').add('Сменить язык')
+main_Rus.row(KeyboardButton('Информация'), KeyboardButton('Поддержка')).row(KeyboardButton('Сменить язык'),
+                                                                            KeyboardButton('Сменить номер телефона'))
 
 main_admin_Rus = ReplyKeyboardMarkup(resize_keyboard=True)
-#main_admin_Rus.add('Информация').add('Количество баллов').add('Поддержка').add('Сменить язык').add('Админ-панель')
-main_admin_Rus.row(KeyboardButton('Информация'), KeyboardButton('Поддержка')).row(KeyboardButton('Сменить язык'), KeyboardButton('Сменить номер телефона')).add('Админ-панель')
+# main_admin_Rus.add('Информация').add('Количество баллов').add('Поддержка').add('Сменить язык').add('Админ-панель')
+main_admin_Rus.row(KeyboardButton('Информация'),
+                   KeyboardButton('Поддержка'),
+                   KeyboardButton('Каталог')) \
+    .row(KeyboardButton('Сменить язык'),
+         KeyboardButton('Сменить номер телефона')) \
+    .add('Админ-панель')
 
 admin_panel_Rus = ReplyKeyboardMarkup(resize_keyboard=True)
-admin_panel_Rus.add('Создать рассылку').add('Назад')
+admin_panel_Rus.add('Создать рассылку').row(KeyboardButton('Список товаров'),
+                                            KeyboardButton('Добавить товар'),
+                                            KeyboardButton('Удалить товар')).add('Назад')
 
 extra_Rus = ReplyKeyboardMarkup(resize_keyboard=True)
 extra_Rus.add('Отмена')
 
 main_Eng = ReplyKeyboardMarkup(resize_keyboard=True)
-main_Eng.row(KeyboardButton('Info'), KeyboardButton('Points')).row(KeyboardButton('Support'), KeyboardButton('Change language'))
+main_Eng.row(KeyboardButton('Info'), KeyboardButton('Points')).row(KeyboardButton('Support'),
+                                                                   KeyboardButton('Change language'))
 
 main_admin_Eng = ReplyKeyboardMarkup(resize_keyboard=True)
-main_admin_Eng.row(KeyboardButton('Info'), KeyboardButton('Points')).row(KeyboardButton('Support'), KeyboardButton('Change language')).add('Admin-panel')
+main_admin_Eng.row(KeyboardButton('Info'), KeyboardButton('Points')).row(KeyboardButton('Support'),
+                                                                         KeyboardButton('Change language')).add(
+    'Admin-panel')
 
 admin_panel_Eng = ReplyKeyboardMarkup(resize_keyboard=True)
 admin_panel_Eng.add('Create mailing list').add('Back')
