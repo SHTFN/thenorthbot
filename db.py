@@ -46,7 +46,7 @@ class BotDB:
             (user_id, user_phone_number))
         return self.conn.commit()
 
-    def add_user_phone(self, number):
+    def add_user_phone(self, number):  # нахер это здесь? оно используется?
         """Добавляем номер телефона пользователя в базу"""
         self.cursor.execute("INSERT INTO `users` (`user_phone_number`) VALUES (?)",
                             (number,))
@@ -65,6 +65,10 @@ class BotDB:
     def delete_product(self, product_id):
         self.cursor.execute("DELETE FROM products WHERE product_id = (?)", (product_id,))
         return self.conn.commit()
+
+    def add_to_cart(self, user_id, product_id):
+        # Добавление товара в корзину
+        self.cursor.execute("SELECT `cart` FROM `users` WHERE `user_id` = ?", (product_id, user_id,))
 
     def get_points(self, user_id):
         # Получение количества баллов

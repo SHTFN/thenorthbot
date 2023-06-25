@@ -16,11 +16,13 @@ class User(StatesGroup):
     new_user_number = State()
     text_of_the_appeal = State()
 
+
 class Product(StatesGroup):
     name = State()
     amount = State()
     cost = State()
     delete_product = State()
+    choose_product = State()
     name_db = ''
     amount_db = ''
     cost_db = ''
@@ -207,6 +209,7 @@ async def process_callback_buttonEng(call: types.CallbackQuery):
     await call.bot.send_message(call.from_user.id, 'Enter command /start')
     BotDB.change_lang(call.from_user.id, 'Eng')
 
+
 @dp.message_handler(text=['Добавить товар', 'Add product'])
 async def add_product(message: types.Message):
     await message.answer('Введите имя товара')
@@ -237,11 +240,9 @@ async def product_amount(message: types.Message, state: FSMContext):
     Product.amount_db = amount
     await state.finish()
     BotDB.add_new_product(Product.name_db, Product.amount_db, Product.cost_db)
-
-    if check_admin(message.from_user.id):
-        await message.answer(f'Товар {Product.name_db} в количестве {Product.amount_db} по цене {Product.cost_db} успешно добавлен', reply_markup=rk[f'main_admin_{BotDB.get_lang(message.from_user.id)}'])
-    else:
-        await message.answer(f'Товар {Product.name_db} в количестве {Product.amount_db} по цене {Product.cost_db} успешно добавлен', reply_markup=rk[f'main_{BotDB.get_lang(message.from_user.id)}'])
+    await message.answer(
+        f'Товар {Product.name_db} в количестве {Product.amount_db} по цене {Product.cost_db} успешно добавлен',
+        reply_markup=rk[f'main_admin_{BotDB.get_lang(message.from_user.id)}'])
 
 
 @dp.message_handler(text=['Удалить товар'])
@@ -254,6 +255,7 @@ async def show_products_for_delete(message: types.Message):
     await message.answer('Введите ID товара, который вы хотите удалить')
     await Product.delete_product.set()
 
+
 @dp.message_handler(state=Product.delete_product)
 async def delete_product(message: types.Message, state: FSMContext):
     answer = message.text
@@ -261,19 +263,42 @@ async def delete_product(message: types.Message, state: FSMContext):
     for row in data:
         Product.id_list.append(row[0])
     if int(answer) not in Product.id_list:
-        await message.answer('Такого ID нет в списке', reply_markup=rk[f'admin_panel_{BotDB.get_lang(message.from_user.id)}'])
+        await message.answer('Такого ID нет в списке',
+                             reply_markup=rk[f'admin_panel_{BotDB.get_lang(message.from_user.id)}'])
     else:
         BotDB.delete_product(answer)
     await state.finish()
 
 
-@dp.message_handler(text=['Список товаров'])
+@dp.message_handler(text=['Каталог товаров'])
 async def show_products(message: types.Message):
     data = BotDB.show_products()
     text = ''
     for row in data:
         text += f'{row[0]}: {row[1]} - количество: {row[2]}, стоимость: {row[3]} рублей\n'
-    await message.answer(text, reply_markup=rk[f'admin_panel_{BotDB.get_lang(message.from_user.id)}'])
+    # await message.answer(text, reply_markup=rk[f'admin_panel_{BotDB.get_lang(message.from_user.id)}'])
+    await message.answer(text, reply_markup=rk[f'catalog_panel_{BotDB.get_lang(message.from_user.id)}'])
+
+
+@dp.message_handler(text=['Выбрать товар'])
+async def choose_product(message: types.Message):
+    await message.answer('Введите номер товара')
+    await Product.choose_product.set()
+
+
+@dp.message_handler(state=Product.choose_product)
+async def add_product_into_cart(message: types.Message, state: FSMContext):
+    product = message.text
+    data = BotDB.show_products()
+    for row in data:
+        Product.id_list.append(row[0])
+    if int(product) not in Product.id_list:
+        await message.answer('Такого ID нет в списке',
+                             reply_markup=rk[f'catalog_panel_{BotDB.get_lang(message.from_user.id)}'])
+        await state.finish()
+    else:
+        BotDB.add_to_cart(f'{message.from_user.id}|', product)
+
 
 
 # ---------------------------------
@@ -292,6 +317,7 @@ async def catalog_1(message: types.Message):
 async def product_1_1(message: types.Message):
     await message.answer('Товар 1', reply_markup=catalog_category_1)
 
+
 @dp.message_handler(text=['Назад'])
 async def pass_func(message: types.Message):
     if check_admin(message.from_user.id):
@@ -300,6 +326,8 @@ async def pass_func(message: types.Message):
     else:
         await message.answer('Главный экран',
                              reply_markup=rk[f'main_{BotDB.get_lang(message.from_user.id)}'])
+
+
 '''
 @dp.message_handler()
 async def pass_func(message: types.Message):

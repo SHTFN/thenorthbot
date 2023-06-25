@@ -2,8 +2,10 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 main_Rus = ReplyKeyboardMarkup(resize_keyboard=True)
 # main_Rus.add('Информация').add('Количество баллов').add('Поддержка').add('Сменить язык')
-main_Rus.row(KeyboardButton('Информация'), KeyboardButton('Поддержка')).row(KeyboardButton('Сменить язык'),
-                                                                            KeyboardButton('Сменить номер телефона'))
+main_Rus.row(KeyboardButton('Информация'),
+             KeyboardButton('Поддержка')) \
+    .row(KeyboardButton('Сменить язык'),
+         KeyboardButton('Сменить номер телефона'))
 
 main_admin_Rus = ReplyKeyboardMarkup(resize_keyboard=True)
 # main_admin_Rus.add('Информация').add('Количество баллов').add('Поддержка').add('Сменить язык').add('Админ-панель')
@@ -11,13 +13,19 @@ main_admin_Rus.row(KeyboardButton('Информация'),
                    KeyboardButton('Поддержка'),
                    KeyboardButton('Каталог')) \
     .row(KeyboardButton('Сменить язык'),
-         KeyboardButton('Сменить номер телефона')) \
+         KeyboardButton('Сменить номер телефона'),
+         KeyboardButton('Каталог товаров')) \
     .add('Админ-панель')
 
 admin_panel_Rus = ReplyKeyboardMarkup(resize_keyboard=True)
-admin_panel_Rus.add('Создать рассылку').row(KeyboardButton('Список товаров'),
-                                            KeyboardButton('Добавить товар'),
-                                            KeyboardButton('Удалить товар')).add('Назад')
+admin_panel_Rus.add('Создать рассылку') \
+    .row(KeyboardButton('Добавить товар'),
+         KeyboardButton('Удалить товар')) \
+    .add('Назад')
+
+catalog_panel_Rus = ReplyKeyboardMarkup(resize_keyboard=True)
+catalog_panel_Rus.row(KeyboardButton('Выбрать товар'),
+                      KeyboardButton('Назад'))
 
 extra_Rus = ReplyKeyboardMarkup(resize_keyboard=True)
 extra_Rus.add('Отмена')
@@ -45,5 +53,6 @@ ReplyKeyboadrs = {
     'main_Eng': main_Eng,
     'main_admin_Eng': main_admin_Eng,
     'admin_panel_Eng': admin_panel_Eng,
-    'extra_Eng': extra_Eng
+    'extra_Eng': extra_Eng,
+    'catalog_panel_Rus': catalog_panel_Rus
 }

@@ -44,5 +44,11 @@ messages = {
     'choose_action_Eng': 'Select an action',
     'choose_lang_Eng': 'Choose language',
     'change_number_access_Eng': 'Phone number was changed',
-    'input_new_phone_number_Eng': 'Input new phone number'
+    'input_new_phone_number_Eng': 'Input new phone number',
+    'input_product_name_Rus': '',
+    'input_product_name_Eng': '',
+    'input_product_cost_Rus': '',
+    'input_product_cost_Eng': '',
+    'input_product_amount_Rus': '',
+    'input_product_amount_Eng': '',
 }
