@@ -9,6 +9,7 @@ from main import BotDB
 from keyboards.default.Keyboards import ReplyKeyboadrs as rk
 from keyboards.inline.Inline import *
 from functions.Functions import check_admin
+import hashlib
 
 
 class User(StatesGroup):
@@ -270,7 +271,7 @@ async def delete_product(message: types.Message, state: FSMContext):
     await state.finish()
 
 
-@dp.message_handler(text=['Каталог товаров'])
+@dp.message_handler(text=['Каталог'])
 async def show_products(message: types.Message):
     data = BotDB.show_products()
     text = ''
@@ -300,12 +301,11 @@ async def add_product_into_cart(message: types.Message, state: FSMContext):
         BotDB.add_to_cart(f'{message.from_user.id}|', product)
 
 
-
 # ---------------------------------
 
-@dp.message_handler(text='Каталог')
+'''@dp.message_handler(text='Каталог')
 async def pass_func(messagge: types.Message):
-    await messagge.answer('Выберите нужную категорию', reply_markup=catalog)
+    await messagge.answer('Выберите нужную категорию', reply_markup=catalog)'''
 
 
 @dp.callback_query_handler(lambda c: c.data == 'ctg1')
@@ -338,3 +338,29 @@ async def pass_func(message: types.Message):
         await message.answer(messages.messages[f'message_error_{BotDB.get_lang(message.from_user.id)}'],
                              reply_markup=rk[f'main_{BotDB.get_lang(message.from_user.id)}'])
 '''
+
+
+# --------------------------------------
+
+def searcher():
+    res = list()
+    products = BotDB.show_products()
+    for el in products:
+        res.append({"id": el[0], "title": el[1], "amount": el[2], "cost": el[3]})
+    return res
+
+@dp.inline_handler()
+async def inline_handler(query: types.InlineQuery):
+    text = query.query or "echo"
+    links = searcher()
+
+    articles = [types.InlineQueryResultArticle(
+        id=hashlib.md5(f'{link["id"]}'.encode()).hexdigest(),
+        title=f'{link["title"]}',
+        url=link,
+        input_message_content=types.InputTextMessageContent(
+            message_text=link
+        )
+    ) for link in links]
+
+    await query.answer(articles, cache_time=60, is_personal=True)

@@ -13,8 +13,7 @@ main_admin_Rus.row(KeyboardButton('Информация'),
                    KeyboardButton('Поддержка'),
                    KeyboardButton('Каталог')) \
     .row(KeyboardButton('Сменить язык'),
-         KeyboardButton('Сменить номер телефона'),
-         KeyboardButton('Каталог товаров')) \
+         KeyboardButton('Сменить номер телефона')) \
     .add('Админ-панель')
 
 admin_panel_Rus = ReplyKeyboardMarkup(resize_keyboard=True)
